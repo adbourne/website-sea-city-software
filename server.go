@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/adbourne/website-seacitysoftware/domain"
-	"github.com/adbourne/website-seacitysoftware/services"
+	"github.com/seacitysoftware/website-sea-city-software/domain"
+	"github.com/seacitysoftware/website-sea-city-software/services"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -28,8 +28,8 @@ func main() {
 	emailConfig := appConfig.EmailConfig
 
 	// Get the absolute path to the templates directory
-	templateDir := appConfig.FrontendDir
-	absTemplateDir := getAbsolutePathOrPanic(templateDir, logger)
+	blogDir := appConfig.BlogDir
+	absBlogDir := getAbsolutePathOrPanic(blogDir, logger)
 
 	// Create the services
 	sesClient := newSesClient(emailConfig)
@@ -40,15 +40,22 @@ func main() {
 	// Create the AppContext
 	ctx := &AppContext{
 		Config:             appConfig,
-		TemplateDir:        absTemplateDir,
 		Logger:             logger,
 		ContactFormService: contactFormService,
 		RecaptchaService:   recaptchaService,
-		//ContactPageHandler:  contactPageHandler,
+		BlogService:        newBlogService(logger, absBlogDir),
 	}
 
 	// Run the application
 	RunApp(ctx)
+}
+
+func newBlogService(logger services.Logger, blogMarkdownDirectory string) services.BlogService {
+	blogService, err := services.NewInMemoryBlogService(logger, blogMarkdownDirectory)
+	if err != nil {
+		panic(err)
+	}
+	return blogService
 }
 
 // getAbsolutePathOrPanic gets the absolute path of the provide path or panics
@@ -67,8 +74,8 @@ type AppContext struct {
 	// Port is the port the application should run on
 	Config *domain.AppConfig
 
-	// TemplateDir is the directory containing the templates
-	TemplateDir string
+	// BlogService is the blog service
+	BlogService services.BlogService
 
 	// Logger is the application's logger
 	Logger services.Logger
@@ -86,7 +93,7 @@ type AppContext struct {
 func newLogger() services.Logger {
 	logrusLogger := logrus.New()
 	logrus.SetFormatter(&logrus.JSONFormatter{})
-	logrus.SetLevel(logrus.InfoLevel)
+	logrus.SetLevel(logrus.DebugLevel)
 	logger := services.NewLogrusLogger(logrusLogger)
 	logger.Info("Starting logger", services.Fields{})
 	return logger
@@ -279,6 +286,36 @@ func RunApp(ctx *AppContext) {
 
 		return c.JSON(200, "")
 
+	})
+
+	e.GET("/blog", func(c echo.Context) error {
+		blogPosts := ctx.BlogService.Posts()
+		logger.Debug("Returning blog posts index", services.Fields{"count": len(blogPosts)})
+		params := map[string]interface{}{
+			"Tagline":        "Sea City Software Blog",
+			"TaglineSummary": "",
+			"BlogPosts":      blogPosts,
+		}
+		return c.Render(http.StatusOK, "blog-index.html", params)
+	})
+
+	e.GET("/blog/:slug", func(c echo.Context) error {
+		slug := c.Param("slug")
+		post := ctx.BlogService.PostBySlug(slug)
+		if nil == post {
+			logger.Debug("Blog post not found", services.Fields{"slug": slug})
+			return c.Render(http.StatusNotFound, "404.html", make(map[string]interface{}))
+		}
+
+		params := map[string]interface{}{
+			"Tagline":        post.Title,
+			"TaglineSummary": post.Summary,
+			"Image":          post.Image,
+			"ImageAlt":       post.ImageAlt,
+			"BlogHTML":       template.HTML(post.HTMLContent),
+		}
+
+		return c.Render(http.StatusOK, "blog-post.html", params)
 	})
 
 	// TODO: move to service

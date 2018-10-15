@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"github.com/adbourne/website-seacitysoftware/domain"
+	"github.com/seacitysoftware/website-sea-city-software/domain"
 	golog "log"
 	"os"
 	"strconv"
@@ -18,7 +18,7 @@ const (
 	// envVarHttpPort is the environment variable containing reference to the HTTP port to serve on
 	envVarHttpPort = "HTTP_PORT"
 
-	envVarFrontendDir = "FRONTEND_DIR"
+	envVarFrontendDir = "BLOG_DIR"
 
 	// envVarEmailSender environment variable containing reference to the email address to use in the "from" field
 	envVarEmailSender = "EMAIL_SENDER"
@@ -50,7 +50,7 @@ func NewEnvVarConfigService(logger Logger) *EnvVarConfigService {
 func (configService *EnvVarConfigService) LoadConfig() *domain.AppConfig {
 	appConfig := &domain.AppConfig{
 		HttpPort: configService.loadEnvVarAsIntOrPanic(envVarHttpPort),
-		FrontendDir: configService.loadEnvVarAsStringOrPanic(envVarFrontendDir),
+		BlogDir:  configService.loadEnvVarAsStringOrPanic(envVarFrontendDir),
 		EmailConfig: &domain.EmailConfig{
 			Sender:          configService.loadEnvVarAsStringOrPanic(envVarEmailSender),
 			Recipient:       configService.loadEnvVarAsStringOrPanic(envVarEmailRecipient),

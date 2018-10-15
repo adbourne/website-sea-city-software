@@ -1,0 +1,23 @@
+{{ template "head.html" . }}
+
+<div class="blog">
+
+    <div class="main-blog">
+
+        <span class="blog-back"><a href="/blog">< Back to the blog</a></span>
+
+    {{template "header.html" . }}
+
+        <img class="blog-hero-image" src="{{.Image}}" alt="{{.ImageAlt}}"/>
+
+        <div class="blog-post-content">
+        {{ .BlogHTML }}
+        </div>
+    </div>
+
+    <Footer/>
+
+</div>
+{{template "footer.html" .}}
+
+{{ template "foot.html" . }}

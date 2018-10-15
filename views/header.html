@@ -1,6 +1,8 @@
 <div class="Header">
     <div class="main-header">
         <h1 class="tagline">{{.Tagline}}</h1>
+    {{if .TaglineSummary}}
         <p class="tagline-summary">{{.TaglineSummary}}</p>
+    {{end}}
     </div>
 </div>

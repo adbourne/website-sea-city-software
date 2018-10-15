@@ -86,7 +86,7 @@ func (suite *ApplicationTestSuite) TestAContactPageCanBeSubmitted() {
 	err = Eventually(func() error {
 		request, err := http.NewRequest("POST", contactApiURL, strings.NewReader(string(jsonBody)))
 		assert.NoError(suite.T(), err, "unable to construct post request")
-		request.Header.Set("Content-Type", "application/json")
+		request.Header.Set("HTMLContent-Type", "application/json")
 
 		cookieJar, err := cookiejar.New(nil)
 		assert.NoError(suite.T(), err, "Unable to construct cookie jar")
@@ -169,7 +169,7 @@ func (suite *ApplicationTestSuite) createTestAppContext(port int, contactFormSer
 			HttpPort:    port,
 			EmailConfig: emailConfig,
 		},
-		TemplateDir:        pathToFrontend,
+		BlogDir:            pathToFrontend,
 		Logger:             logger,
 		ContactFormService: contactFormService,
 		RecaptchaService:   recaptchaService,

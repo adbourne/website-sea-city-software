@@ -1,0 +1,29 @@
+{{ template "head.html" . }}
+
+<div class="blog">
+
+{{template "header.html" . }}
+
+    <div class="main-blog">
+
+        <ul class="blog-cards">
+        {{range .BlogPosts}}
+            <a href="/blog/{{.Slug}}">
+                <li class="card blog-post-card">
+                    <img src="{{.Image}}" alt="{{.ImageAlt}}"/>
+                    <h3>{{.Title}}</h3>
+                    <p>
+                    {{.Summary}}
+                    </p>
+                </li>
+            </a>
+        {{end}}
+        </ul>
+    </div>
+
+    <Footer/>
+
+</div>
+{{template "footer.html" .}}
+
+{{ template "foot.html" . }}

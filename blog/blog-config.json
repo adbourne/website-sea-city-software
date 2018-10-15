@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "slug": "first-post",
+      "title": "The Sea City Software Blog is Live!",
+      "summary": "The very first post for the Sea City Software blog.",
+      "image": "img/blog/sea.jpg",
+      "imageAlt": "The Sea",
+      "filename": "first-post.md"
+    },
+    {
+      "slug": "second-post",
+      "title": "The Sea City Software Blog is even more Live!",
+      "summary": "The second post for the Sea City Software blog.",
+      "image": "img/blog/sea.jpg",
+      "imageAlt": "The Sea",
+      "filename": "second-post.md"
+    }
+  ]
+}

@@ -2,6 +2,16 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/adbourne/website-seacitysoftware"
+  packages = [
+    "domain",
+    "mocks",
+    "services"
+  ]
+  revision = "460d0e1376b50fbdac4354f0caebd86311696304"
+
+[[projects]]
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -132,6 +142,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/shurcooL/sanitized_anchor_name"
+  packages = ["."]
+  revision = "86672fcb3f950f35f2e675df2240550f2a50762f"
+
+[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "3e01752db0189b9157070a0e1668a620f9a85da2"
@@ -197,9 +213,15 @@
   revision = "e69e9a28bb62b977fdc58d051f1bb477b7cbe486"
   version = "v9.21.0"
 
+[[projects]]
+  name = "gopkg.in/russross/blackfriday.v2"
+  packages = ["."]
+  revision = "d3b5b032dc8e8927d31a5071b56e14c89f045135"
+  version = "v2.0.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7606507992f081dea17aedfe6f72b37720b34375a5b5e87d845ef1540aa126d0"
+  inputs-digest = "c36463f9fd3bcd3df1137b005a3dce35d3fe3b84492ab5446430e1d5287600eb"
   solver-name = "gps-cdcl"
   solver-version = 1

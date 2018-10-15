@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"github.com/adbourne/website-seacitysoftware/domain"
+	"github.com/seacitysoftware/website-sea-city-software/domain"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/ses"

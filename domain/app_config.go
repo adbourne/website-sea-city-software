@@ -17,7 +17,7 @@ type AppConfig struct {
 	// HttpPort is the port to run on
 	HttpPort int
 
-	FrontendDir string
+	BlogDir string
 
 	// EmailConfig is the email configuration
 	EmailConfig *EmailConfig
